@@ -782,9 +782,14 @@ body{
 
     margin:20px auto 0;
 
-    width:fit-content;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
 
-    padding:15px 28px;
+    width:auto;
+
+    padding:14px 22px;
 
     border-radius:18px;
 
@@ -800,6 +805,50 @@ body{
 
     font-weight:700;
 
+}
+
+.alias-box .alias-value{
+
+    display:inline-block;
+    color:#050505;
+
+}
+
+.copy-btn{
+
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,0.95);
+    cursor:pointer;
+    transition:transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.copy-btn:hover{
+
+    transform:scale(1.05);
+    box-shadow:0 0 12px rgba(212,175,55,0.22);
+}
+
+.copy-btn svg{
+
+    width:16px;
+    height:16px;
+    fill:#8a6518;
+}
+
+.copy-btn.copied{
+
+    background:#d4af37;
+}
+
+.copy-btn.copied svg{
+
+    fill:#050505;
 }
 
 /* =========================================
@@ -1467,6 +1516,33 @@ document.getElementById(
 
 box.classList.toggle("active");
 
+}
+
+function copyAlias(){
+  const alias = 'dj.mono.mp';
+  const button = document.querySelector('.copy-btn');
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(alias).then(() => {
+      button.classList.add('copied');
+      setTimeout(() => {
+        button.classList.remove('copied');
+      }, 1400);
+    });
+  } else {
+    const textarea = document.createElement('textarea');
+    textarea.value = alias;
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+    button.classList.add('copied');
+    setTimeout(() => {
+      button.classList.remove('copied');
+    }, 1400);
+  }
 }
 
 const sectionIcons =
